@@ -16,6 +16,8 @@ package demo.repository;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,8 +27,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,22 +44,30 @@ public class PersonRepositoryTest {
 
     @Test
     public void testGet() throws Exception {
-        mockMvc.perform(get("/persons")).andExpect( status().isOk());
+        MvcResult mvcResult = mockMvc.perform(get("/persons"))
+                .andExpect( status().isOk())
+                //.andExpect(MockMvcResultMatchers.jsonPath("$._embedded",org.hamcrest.Matchers.is("{\"persons\"") ))
+                .andReturn();
+        String outJSON = "{\n" +
+                "  \"_embedded\" : {\n" + "    \"persons\" : [ ]\n" + "  },\n" +
+                "  \"_links\" : {\n" + "    \"self\" : {\n" +
+                "      \"href\" : \"http://localhost/persons\"\n" + "    },\n" + "    \"profile\" : {\n" +
+                "      \"href\" : \"http://localhost/profile/persons\"\n" + "    }\n" + "  }\n" + "}";
+        assertEquals(outJSON, mvcResult.getResponse().getContentAsString());
+        JSONAssert.assertEquals(outJSON,mvcResult.getResponse().getContentAsString(), JSONCompareMode.LENIENT);
     }
 
     @Test
+
     public void testPost() throws Exception {
 
         MvcResult mvcResult = mockMvc.perform(post("/persons")
         .contentType(MediaType.APPLICATION_JSON_UTF8)
         .content("{ \"firstName\" : \"John\", \"lastName\" : \"Borys\" }"))
         .andExpect( status().is(201))
+        .andDo(print())
         .andReturn();
         String content = mvcResult.getResponse().getContentAsString();
-        System.out.println("Z" + content + "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-
-
-        //.andDo(print())  //prints out request/response details to console
     }
 
 
