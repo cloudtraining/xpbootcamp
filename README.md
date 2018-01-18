@@ -1,9 +1,8 @@
-#Professional Training 
+# Professional Training 
 Download and use!
 
 # CRUD App with Spring Boot
 
-This is the code developed in the tutorial (https://stormpath.com/blog/tutorial-crud-spring-boot-20-minutes) on creating a flexible CRUD app with Spring Boot.
 
 It features full REST compliance and an embedded database.
 
@@ -42,14 +41,7 @@ and can create new ones using a POST:
 $ curl -X POST -H "Content-Type:application/json" -d '{ "firstName" : "Karl", "lastName" : "Penzhorn" }' localhost:8080/persons
 ```
 
-### Todo
-
- - Switching out database
- - Paging results
- - Writing tests
-
 ### License
 ----
 
-MIT
-
+The Unlicense
