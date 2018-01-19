@@ -58,7 +58,6 @@ public class PersonRepositoryTest {
     }
 
     @Test
-
     public void testPost() throws Exception {
 
         MvcResult mvcResult = mockMvc.perform(post("/persons")
