@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static demo.model.PersonTest.createMockPerson;
+import static demo.fixtures.ModelBuilder.createPerson;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -34,8 +34,8 @@ public class PersonControllerTest {
     @Test
     public void testFindAll() throws Exception {
         List<Person> mockPersons = new ArrayList<Person>();
-        mockPersons.add( createMockPerson(0, "Alice",  "Apple") );
-        mockPersons.add( createMockPerson(0, "Bob",  "Banana") );
+        mockPersons.add( createPerson(0, "Alice",  "Apple") );
+        mockPersons.add( createPerson(0, "Bob",  "Banana") );
 
         when(personRepository.findAll()).thenReturn(mockPersons);
 
