@@ -6,21 +6,22 @@ import static org.junit.Assert.assertEquals;
 
 public class PersonTest {
 
-	//curl -i -X POST -H "Content-Type:application/json" -d '{ "firstName" : "John", "lastName" : "Borys" }' localhost:8080/persons
-
-	@Test
-	public void testGetFirstName(){
+	public static Person createMockPerson(long id, String firstName, String lastName) {
 		Person person = new Person();
-        person.setFirstName("bob");
-        assertEquals("bob",person.getFirstName());
+		person.setId(id);
+		person.setFirstName(firstName);
+		person.setLastName(lastName);
+		return person;
 	}
 
 	@Test
-	public void testGetLastName(){
-		Person person = new Person();
-		person.setLastName("last_name_xi");
-		assertEquals("last_name_xi",person.getLastName());
+	public void testPerson(){
+		Person person = PersonTest.createMockPerson(99L, "Bob", "Banana");
+        assertEquals(99L, person.getId());
+        assertEquals("Bob", person.getFirstName());
+		assertEquals("Banana" ,person.getLastName());
 	}
+
 
 }
 

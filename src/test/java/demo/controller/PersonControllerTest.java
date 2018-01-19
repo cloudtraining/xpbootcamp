@@ -1,7 +1,9 @@
 package demo.controller;
 
 import demo.model.Person;
+import demo.model.PersonTest;
 import demo.repository.PersonRepository;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -27,25 +30,23 @@ public class PersonControllerTest {
     @InjectMocks
     private PersonController personController;
 
-    @Before
-    public void setup() {
-        //personController = new PersonController();
-    }
-
     @Test
     public void testFindAll() throws Exception {
         List<Person> mockPersons = new ArrayList<Person>();
-        Person p = new Person();
-        p.setFirstName("foo");
-        p.setLastName("bar");
-        mockPersons.add(p);
+        mockPersons.add( PersonTest.createMockPerson(0, "Alice",  "Apple") );
+        mockPersons.add( PersonTest.createMockPerson(0, "Bob",  "Banana") );
 
         when(personRepository.findAll()).thenReturn(mockPersons);
 
         Iterable<Person> actualPersons = personController.findAll();
 
         assertNotNull(actualPersons);
-        Person firstPerson = actualPersons.iterator().next();
-        assertEquals("foo", firstPerson.getFirstName());
+        
+        Iterator<Person> iter = actualPersons.iterator();
+        Person firstPerson = iter.next();
+        assertEquals("Alice", firstPerson.getFirstName());
+        
+        Person secondPerson = iter.next();
+        assertEquals("Banana", secondPerson.getLastName());
     }
 }

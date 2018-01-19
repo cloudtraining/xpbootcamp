@@ -32,3 +32,10 @@ hs_err_pid*
 *.iml
 out
 gen
+/target/
+
+# Eclipse files
+.classpath
+.project
+.settings
+.settings/**

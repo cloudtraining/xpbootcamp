@@ -2,6 +2,7 @@ package demo;
 
 import demo.model.Person;
 import demo.repository.PersonRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,22 +17,17 @@ public class DatabaseInitializer {
     @PostConstruct
     public void initTestData() {
 
-        Person p1 = new Person();
-        p1.setFirstName("Alice");
-        p1.setLastName("Apple");
-        personRepository.save(p1);
+        personRepository.save( createPerson("Alice", "Apple") );
+        personRepository.save( createPerson("Bob", "Banana") );
+        personRepository.save( createPerson("Carl", "Cantelope") );
 
-        Person p2 = new Person();
-        p2.setFirstName("Bob");
-        p2.setLastName("Banana");
-        personRepository.save(p2);
-
-        Person p3 = new Person();
-        p3.setFirstName("Carl");
-        p3.setLastName("Cantelope");
-        personRepository.save(p3);
-
-        System.err.println("Added two persons to the db.");
     }
+
+	private Person createPerson(String firstName, String lastName) {
+		Person person = new Person();
+		person.setFirstName(firstName);
+		person.setLastName(lastName);
+		return person;
+	}
 
 }
