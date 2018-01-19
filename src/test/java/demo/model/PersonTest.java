@@ -6,7 +6,8 @@ import static org.junit.Assert.assertEquals;
 
 public class PersonTest {
 
-	public static Person createMockPerson(long id, String firstName, String lastName) {
+	public static Person createMockPerson(long id, String firstName, String lastName) 
+	{
 		Person person = new Person();
 		person.setId(id);
 		person.setFirstName(firstName);
@@ -15,7 +16,7 @@ public class PersonTest {
 	}
 
 	@Test
-	public void testPerson(){
+	public void testPerson() throws Exception {
 		Person person = PersonTest.createMockPerson(99L, "Bob", "Banana");
         assertEquals(99L, person.getId());
         assertEquals("Bob", person.getFirstName());

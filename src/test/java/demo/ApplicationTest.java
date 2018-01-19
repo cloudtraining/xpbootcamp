@@ -1,5 +1,6 @@
 package demo;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
@@ -15,12 +16,17 @@ import org.springframework.context.ConfigurableApplicationContext;
 @PrepareForTest(SpringApplication.class)
 public class ApplicationTest {
 
-
 	@Mock
 	private ConfigurableApplicationContext ctx;
+
+	@Test
+	public void testApplicationConstructor() throws Exception {
+		Application application = new Application();
+		Assert.assertNotNull(application);
+	}
 	
 	@Test
-	public void testMain() {
+	public void testMain() throws Exception {
 		
 		//given
 		String[] args = {"foo", "bar"};
