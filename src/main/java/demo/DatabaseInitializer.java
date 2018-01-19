@@ -31,6 +31,7 @@ public class DatabaseInitializer {
         p3.setLastName("Cantelope");
         personRepository.save(p3);
 
+        System.err.println("Added two persons to the db.");
     }
 
 }
