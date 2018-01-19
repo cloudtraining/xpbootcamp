@@ -1,5 +1,0 @@
-demo/Application.class
-demo/model/Person.class
-demo/repository/PersonRepository.class
-demo/controller/PersonController.class
-demo/SwaggerConfig.class
