@@ -14,6 +14,7 @@ package demo.repository;
 ////@AutoConfigureMockMvc
 
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -48,13 +49,15 @@ public class PersonRepositoryIntTest {
                 .andExpect( status().isOk())
                 //.andExpect(MockMvcResultMatchers.jsonPath("$._embedded",org.hamcrest.Matchers.is("{\"persons\"") ))
                 .andReturn();
-        String outJSON = "{\n" +
-                "  \"_embedded\" : {\n" + "    \"persons\" : [ ]\n" + "  },\n" +
-                "  \"_links\" : {\n" + "    \"self\" : {\n" +
-                "      \"href\" : \"http://localhost/persons\"\n" + "    },\n" + "    \"profile\" : {\n" +
-                "      \"href\" : \"http://localhost/profile/persons\"\n" + "    }\n" + "  }\n" + "}";
-        assertEquals(outJSON, mvcResult.getResponse().getContentAsString());
-        JSONAssert.assertEquals(outJSON,mvcResult.getResponse().getContentAsString(), JSONCompareMode.LENIENT);
+        String actualJson = mvcResult.getResponse().getContentAsString();
+        Assert.assertTrue(actualJson.contains("Banana"));
+//        String outJSON = "{\n" +
+//                "  \"_embedded\" : {\n" + "    \"persons\" : [ ]\n" + "  },\n" +
+//                "  \"_links\" : {\n" + "    \"self\" : {\n" +
+//                "      \"href\" : \"http://localhost/persons\"\n" + "    },\n" + "    \"profile\" : {\n" +
+//                "      \"href\" : \"http://localhost/profile/persons\"\n" + "    }\n" + "  }\n" + "}";
+//        assertEquals(outJSON, mvcResult.getResponse().getContentAsString());
+//        JSONAssert.assertEquals(outJSON,mvcResult.getResponse().getContentAsString(), JSONCompareMode.LENIENT);
     }
 
     @Test

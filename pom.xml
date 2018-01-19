@@ -90,6 +90,14 @@
                 </configuration>
             </plugin>
         </plugins>
+	    <resources>
+	        <resource>
+	            <directory>src/test-int/java</directory>
+	        </resource>
+	        <resource>
+	            <directory>src/test-int/resources</directory>
+	        </resource>
+	    </resources>        
     </build>
     
 </project>
