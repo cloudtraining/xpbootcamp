@@ -59,7 +59,9 @@ public class PersonControllerWithMockMvcTest {
 	@Test
 	public void testByLastNamePerson() throws Exception {
 		
-		BDDMockito.given(personService.findByLastName(Mockito.isA(String.class))).willReturn( ModelBuilder.createPerson(0, "JUnit", "Tester") );
+		List<Person> persons = new ArrayList<>();
+		persons.add( ModelBuilder.createPerson(0, "JUnit", "Tester") );
+		BDDMockito.given(personService.findByLastName(Mockito.isA(String.class))).willReturn( persons );
 
 		MvcResult mvcResult = mockMvc.perform(get("/personcontroller/findByLastName?lastName=Tester"))
 		         .andExpect( status().isOk())

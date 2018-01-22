@@ -1,5 +1,7 @@
 package demo.repository;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
@@ -11,6 +13,6 @@ import demo.model.Person;
 @RepositoryRestResource
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
-	public Person findByLastName(String lastName);
+	public List<Person> findByLastName(String lastName);
 	
 }

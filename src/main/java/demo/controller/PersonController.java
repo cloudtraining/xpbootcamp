@@ -1,6 +1,8 @@
 package demo.controller;
 
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +27,7 @@ public class PersonController {
     }
     
     @GetMapping("/personcontroller/findByLastName")
-    public Person findByLastName(@RequestParam("lastName") String lastName){
+    public List<Person> findByLastName(@RequestParam("lastName") String lastName){
     	return personService.findByLastName(lastName);
     }
 

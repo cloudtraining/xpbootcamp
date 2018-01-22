@@ -51,13 +51,16 @@ public class PersonServiceTest {
     @Test
     public void testFindByLastName() throws Exception {
 
-        when(personService.findByLastName(Mockito.isA(String.class))).thenReturn( createPerson(0, "JUnit1",  "Tester1") );
+        List<Person> mockPersons = new ArrayList<Person>();
+        mockPersons.add( createPerson(0, "JUnit1",  "Tester1") );
+        mockPersons.add( createPerson(0, "JUnit2",  "Tester2") );
+        when(personService.findByLastName(Mockito.isA(String.class))).thenReturn( mockPersons );
 
-        Person actualPerson = personRepository.findByLastName("Tester");
+        List<Person> actualPersons = personRepository.findByLastName("Tester");
 
-        assertNotNull(actualPerson);
+        assertNotNull(actualPersons);
         
-        assertEquals("JUnit1", actualPerson.getFirstName());
-        assertEquals("Tester1", actualPerson.getLastName());
+        assertEquals("JUnit1", actualPersons.get(0).getFirstName());
+        assertEquals("Tester1", actualPersons.get(0).getLastName());
     }
 }
