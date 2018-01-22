@@ -30,16 +30,9 @@ public class PersonRepositoryIntTest {
     public void testPersonsGet() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/persons"))
                 .andExpect( status().isOk())
-                //.andExpect(MockMvcResultMatchers.jsonPath("$._embedded",org.hamcrest.Matchers.is("{\"persons\"") ))
                 .andReturn();
         String actualJson = mvcResult.getResponse().getContentAsString();
         Assert.assertTrue(actualJson.contains("Banana"));
-//        String outJSON = "{\n" +
-//                "  \"_embedded\" : {\n" + "    \"persons\" : [ ]\n" + "  },\n" +
-//                "  \"_links\" : {\n" + "    \"self\" : {\n" +
-//                "      \"href\" : \"http://localhost/persons\"\n" + "    },\n" + "    \"profile\" : {\n" +
-//                "      \"href\" : \"http://localhost/profile/persons\"\n" + "    }\n" + "  }\n" + "}";
-//        assertEquals(outJSON, mvcResult.getResponse().getContentAsString());
 //        JSONAssert.assertEquals(outJSON,mvcResult.getResponse().getContentAsString(), JSONCompareMode.LENIENT);
     }
 
@@ -52,7 +45,7 @@ public class PersonRepositoryIntTest {
         .andExpect( status().is(201))
         .andDo(print())
         .andReturn();
-        String content = mvcResult.getResponse().getContentAsString();
+        //String content = mvcResult.getResponse().getContentAsString();
     }
 
 

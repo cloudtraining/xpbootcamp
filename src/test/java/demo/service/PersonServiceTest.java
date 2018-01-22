@@ -1,4 +1,4 @@
-package demo.controller;
+package demo.service;
 
 import static demo.fixtures.ModelBuilder.createPerson;
 import static org.junit.Assert.assertEquals;
@@ -13,22 +13,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import demo.model.Person;
-import demo.service.PersonService;
+import demo.repository.PersonRepository;
 
-/**
- * Mockito based unit tests.
- */
 @RunWith(MockitoJUnitRunner.class)
-public class PersonControllerTest {
+public class PersonServiceTest {
 
     @Mock
-    private PersonService personService;
+    private PersonRepository personRepository;
 
     @InjectMocks
-    private PersonController personController;
+    private PersonService personService;
 
     @Test
     public void testFindAll() throws Exception {
@@ -38,7 +36,7 @@ public class PersonControllerTest {
 
         when(personService.findAll()).thenReturn(mockPersons);
 
-        Iterable<Person> actualPersons = personController.findAll();
+        Iterable<Person> actualPersons = personRepository.findAll();
 
         assertNotNull(actualPersons);
         
@@ -48,5 +46,18 @@ public class PersonControllerTest {
         
         Person secondPerson = iter.next();
         assertEquals("Tester2", secondPerson.getLastName());
+    }	
+    
+    @Test
+    public void testFindByLastName() throws Exception {
+
+        when(personService.findByLastName(Mockito.isA(String.class))).thenReturn( createPerson(0, "JUnit1",  "Tester1") );
+
+        Person actualPerson = personRepository.findByLastName("Tester");
+
+        assertNotNull(actualPerson);
+        
+        assertEquals("JUnit1", actualPerson.getFirstName());
+        assertEquals("Tester1", actualPerson.getLastName());
     }
 }

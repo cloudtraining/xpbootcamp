@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import demo.fixtures.ModelBuilder;
 import demo.model.Person;
-import demo.repository.PersonRepository;
+import demo.service.PersonService;
 
 /**
  * Unit tests using mockMvc to initiate calls to the PersonController, underlying services are mocked with Mockito.
@@ -36,14 +36,14 @@ public class PersonControllerWithMockMvcTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private PersonRepository personRepository;
+    private PersonService personService;
 
 	@Test
 	public void testFindAll() throws Exception {
 
 		List<Person> persons = new ArrayList<>();
 		persons.add( ModelBuilder.createPerson(0, "JUnit", "Tester") );
-		BDDMockito.given(personRepository.findAll()).willReturn(persons);
+		BDDMockito.given(personService.findAll()).willReturn(persons);
 		
         MvcResult mvcResult = mockMvc.perform(get("/personcontroller/findAll"))
                 .andExpect( status().isOk())
@@ -59,7 +59,7 @@ public class PersonControllerWithMockMvcTest {
 	@Test
 	public void testByLastNamePerson() throws Exception {
 		
-		BDDMockito.given(personRepository.findByLastName(Mockito.isA(String.class))).willReturn( ModelBuilder.createPerson(0, "JUnit", "Tester") );
+		BDDMockito.given(personService.findByLastName(Mockito.isA(String.class))).willReturn( ModelBuilder.createPerson(0, "JUnit", "Tester") );
 
 		MvcResult mvcResult = mockMvc.perform(get("/personcontroller/findByLastName?lastName=Tester"))
 		         .andExpect( status().isOk())
