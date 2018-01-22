@@ -21,5 +21,9 @@ public class PersonService {
     public List<Person> findByLastName(String lastName){
     	return personRepository.findByLastName(lastName);
     }
+    
+    public List<Person> findByLastNameLike(String lastName){
+    	return personRepository.findByLastNameLike(lastName);
+    }
 	
 }

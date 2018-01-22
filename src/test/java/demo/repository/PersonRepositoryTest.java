@@ -30,9 +30,9 @@ import demo.fixtures.ModelBuilder;
 import demo.model.Person;
 
 /**
- * Unit testing the PersonRepository, mocking out the db conneciton using DataJpaTest
+ * Unit testing the PersonRepository, mocking out the db conneciton using @DataJpaTest and TestEntityManager
  * 
- * Note: There is a startup conflict when @EnableSwagger2 is used with the @SpringBootApplication.
+ * Note: There is a startup conflict when @EnableSwagger2 is used with the @SpringBootApplication (Swagger is disabled).
  * 
  */
 @RunWith(SpringRunner.class)
@@ -62,7 +62,17 @@ public class PersonRepositoryTest {
     public void testFindByLastName() {
     	entityManager.persist( ModelBuilder.createPerson(0, "JUnit", "Tester"));
     	
-    	Iterable<Person> l = personRepository.findAll();
+    	List<Person> l = personRepository.findByLastName("Tester");
+    	
+    	Assert.assertNotNull(l);
+    	Assert.assertNotNull("JUnit", l.iterator().next().getFirstName());
+    }
+
+    @Test
+    public void testFindByLastNameLike() {
+    	entityManager.persist( ModelBuilder.createPerson(0, "JUnit", "Tester"));
+    	
+    	List<Person> l = personRepository.findByLastNameLike("Tester");
     	
     	Assert.assertNotNull(l);
     	Assert.assertNotNull("JUnit", l.iterator().next().getFirstName());

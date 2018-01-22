@@ -5,6 +5,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +19,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import demo.fixtures.ModelBuilder;
+import demo.model.Person;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest         //Instanciates MockMvc
 @AutoConfigureMockMvc   // MockMvc AutoConfiguration Eliminates need for Builder
@@ -24,8 +29,36 @@ import org.springframework.test.web.servlet.MvcResult;
 public class PersonRepositoryIntTest {
 
     @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
     private MockMvc mockMvc;
 
+    //Calls direct to PersonRepository with runtime db connection
+
+    @Test
+    public void testFindByLastName() {
+    	
+    	List<Person> l = personRepository.findByLastName("Cantelope");
+    	
+    	Assert.assertNotNull(l);
+    	Assert.assertEquals("Carl", l.get(0).getFirstName());
+    	Assert.assertEquals("Cantelope", l.get(0).getLastName());
+    }
+    
+    @Test
+    public void testFindByLastNameLike() {
+    	
+    	List<Person> l = personRepository.findByLastNameLike("A");
+    	
+    	Assert.assertNotNull(l);
+    	Assert.assertEquals("Alice", l.get(0).getFirstName());
+    	Assert.assertEquals("Apple", l.get(0).getLastName());
+    }
+
+    
+    //Calls to PersonRepository via mockMvc with runtime db connection
+    
     @Test
     public void testPersonsGet() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/persons"))
@@ -49,4 +82,5 @@ public class PersonRepositoryIntTest {
     }
 
 
+    
 }

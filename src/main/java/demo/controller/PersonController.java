@@ -31,4 +31,9 @@ public class PersonController {
     	return personService.findByLastName(lastName);
     }
 
+    @GetMapping("/personcontroller/findByLastNameLike")
+    public List<Person> findByLastNameLike(@RequestParam("lastName") String lastName){
+    	return personService.findByLastNameLike(lastName);
+    }
+    
 }
