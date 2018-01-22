@@ -1,4 +1,7 @@
-<project>
+<project 
+	xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -12,6 +15,11 @@
         <version>1.5.9.RELEASE</version>
     </parent>
 
+	<properties>
+		<intTests.skip>false</intTests.skip>
+		<intTests.failureIgnore>false</intTests.failureIgnore>
+	</properties>
+	
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -89,15 +97,100 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>add-test-source</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/test-int/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.20.1</version>
+				<configuration>
+					<excludes>
+						<exclude>**/*IntTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.18.1</version> <!--  Note: Issues will occur with latest failsafe version. See: https://github.com/spring-projects/spring-boot/issues/6254 -->
+				<configuration>
+					<skip>${intTests.skip}</skip>
+					<testFailureIgnore>${intTests.failureIgnore}</testFailureIgnore>
+					<sources>
+						<source>src/test-int/java</source>
+					</sources>
+					<includes>
+						<include>**/*IntTest.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+			
+			<!-- 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.20.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.20.1</version>
+				<configuration>
+					<skip>${surefire.skip}</skip>
+					<sources>
+						<source>src/test-int/java</source>
+					</sources>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-test-source</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/test-int/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			-->
+            
         </plugins>
-	    <resources>
-	        <resource>
-	            <directory>src/test-int/java</directory>
-	        </resource>
-	        <resource>
-	            <directory>src/test-int/resources</directory>
-	        </resource>
-	    </resources>        
     </build>
     
 </project>
