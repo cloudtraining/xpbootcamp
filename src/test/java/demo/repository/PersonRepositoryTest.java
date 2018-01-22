@@ -1,74 +1,71 @@
-//package demo.repository;
-//
-//
-//
-//
-//////@RunWith(SpringRunner.class)
-//////@WebMvcTest(controllers = PersonRepository.class, secure=false)
-//////@SpringBootTest //webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-//////@ContextConfiguration("PersonRepository")
-//////@RunWith(SpringJUnit4ClassRunner.class)
-//////@SpringApplicationConfiguration(classes = Application.class)
-//////@BootstrapWith(value=org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper.class)
-//////@AutoConfigureWebMvc
-//////@AutoConfigureMockMvc
-//
-//
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.skyscreamer.jsonassert.JSONAssert;
-//import org.skyscreamer.jsonassert.JSONCompareMode;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.http.MediaType;
-//import org.springframework.test.context.ActiveProfiles;
-//import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.MvcResult;
-//
-//import static org.junit.Assert.assertEquals;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-//
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@SpringBootTest         //Instanciates MockMvc
-//@AutoConfigureMockMvc   // MockMvc AutoConfiguration Eliminates need for Builder
-//@ActiveProfiles("unit.test")
-//public class PersonRepositoryTest {
-//
-//    @Autowired
-//    private MockMvc mockMvc;
-//
-//    @Test
-//    public void testGet() throws Exception {
-//        MvcResult mvcResult = mockMvc.perform(get("/persons"))
-//                .andExpect( status().isOk())
-//                //.andExpect(MockMvcResultMatchers.jsonPath("$._embedded",org.hamcrest.Matchers.is("{\"persons\"") ))
-//                .andReturn();
-//        String outJSON = "{\n" +
-//                "  \"_embedded\" : {\n" + "    \"persons\" : [ ]\n" + "  },\n" +
-//                "  \"_links\" : {\n" + "    \"self\" : {\n" +
-//                "      \"href\" : \"http://localhost/persons\"\n" + "    },\n" + "    \"profile\" : {\n" +
-//                "      \"href\" : \"http://localhost/profile/persons\"\n" + "    }\n" + "  }\n" + "}";
-//        assertEquals(outJSON, mvcResult.getResponse().getContentAsString());
-//        JSONAssert.assertEquals(outJSON,mvcResult.getResponse().getContentAsString(), JSONCompareMode.LENIENT);
-//    }
-//
-//    @Test
-//
-//    public void testPost() throws Exception {
-//
-//        MvcResult mvcResult = mockMvc.perform(post("/persons")
-//        .contentType(MediaType.APPLICATION_JSON_UTF8)
-//        .content("{ \"firstName\" : \"John\", \"lastName\" : \"Borys\" }"))
-//        .andExpect( status().is(201))
-//        .andDo(print())
-//        .andReturn();
-//        String content = mvcResult.getResponse().getContentAsString();
-//    }
-//
-//
-//}
+package demo.repository;
+
+
+
+
+////@RunWith(SpringRunner.class)
+////@WebMvcTest(controllers = PersonRepository.class, secure=false)
+////@SpringBootTest //webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+////@ContextConfiguration("PersonRepository")
+////@RunWith(SpringJUnit4ClassRunner.class)
+////@SpringApplicationConfiguration(classes = Application.class)
+////@BootstrapWith(value=org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper.class)
+////@AutoConfigureWebMvc
+////@AutoConfigureMockMvc
+
+
+import java.util.Iterator;
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import demo.fixtures.ModelBuilder;
+import demo.model.Person;
+
+/**
+ * Unit testing the PersonRepository, mocking out the db conneciton using DataJpaTest
+ * 
+ * Note: There is a startup conflict when @EnableSwagger2 is used with the @SpringBootApplication.
+ * 
+ */
+@RunWith(SpringRunner.class)
+@DataJpaTest
+public class PersonRepositoryTest {
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
+    private TestEntityManager entityManager;
+
+    @Test
+    public void testFindAll() {
+    	entityManager.persist( ModelBuilder.createPerson(0, "JUnit", "Tester1"));
+    	entityManager.persist( ModelBuilder.createPerson(0, "JUnit", "Tester2"));
+    	
+    	Iterable<Person> l = personRepository.findAll();
+    	
+    	Assert.assertNotNull(l);
+    	Iterator<Person> iter = l.iterator();
+    	Assert.assertEquals("Tester1", iter.next().getLastName());
+    	Assert.assertEquals("Tester2", iter.next().getLastName());
+    }
+    
+    @Test
+    public void testFindByLastName() {
+    	entityManager.persist( ModelBuilder.createPerson(0, "JUnit", "Tester"));
+    	
+    	Iterable<Person> l = personRepository.findAll();
+    	
+    	Assert.assertNotNull(l);
+    	Assert.assertNotNull("JUnit", l.iterator().next().getFirstName());
+    }
+
+}

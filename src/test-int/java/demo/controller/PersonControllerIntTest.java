@@ -15,6 +15,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import demo.Application;
 import demo.model.Person;
 
+/**
+ * Uses the restTemplate made available through @SpringBootTest to run full Integration tests.
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class,  webEnvironment = WebEnvironment.RANDOM_PORT)
 public class PersonControllerIntTest {
