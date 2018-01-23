@@ -48,11 +48,6 @@
             <artifactId>spring-boot-test-autoconfigure</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test-autoconfigure</artifactId>
-            <scope>test</scope>
-        </dependency>
 	   <dependency>
 	      <groupId>org.powermock</groupId>
 	      <artifactId>powermock-module-junit4</artifactId>
@@ -65,7 +60,22 @@
 	      <version>1.7.3</version>
 	      <scope>test</scope>
 	   </dependency>
-        
+	   
+	    <dependency>
+	        <groupId>org.springframework.cloud</groupId>
+	        <artifactId>spring-cloud-contract-wiremock</artifactId>
+	        <version>1.2.2.RELEASE</version>
+	        <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.springframework.cloud</groupId>
+	        <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
+	        <version>1.2.2.RELEASE</version>
+	        <scope>test</scope>
+	    </dependency>
+	    
+	   
+
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -145,6 +155,8 @@
 				</configuration>
 			</plugin>
             
+	
+	             
         </plugins>
     </build>
     
