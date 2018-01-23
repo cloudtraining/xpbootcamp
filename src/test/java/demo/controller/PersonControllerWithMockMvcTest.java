@@ -57,7 +57,7 @@ public class PersonControllerWithMockMvcTest {
 	}
 	
 	@Test
-	public void testByLastNamePerson() throws Exception {
+	public void testFindByLastName() throws Exception {
 		
 		List<Person> persons = new ArrayList<>();
 		persons.add( ModelBuilder.createPerson(0, "JUnit", "Tester") );
@@ -73,4 +73,20 @@ public class PersonControllerWithMockMvcTest {
 	        assertTrue(returnedJson.contains("Tester"));
 	}
 
+	@Test
+	public void testFindByLastNameLike() throws Exception {
+		
+		List<Person> persons = new ArrayList<>();
+		persons.add( ModelBuilder.createPerson(0, "JUnit", "Tester") );
+		BDDMockito.given(personService.findByLastNameLike(Mockito.isA(String.class))).willReturn( persons );
+
+		MvcResult mvcResult = mockMvc.perform(get("/personcontroller/findByLastNameLike?lastName=T"))
+		         .andExpect( status().isOk())
+		         .andReturn();
+		
+	        String returnedJson = mvcResult.getResponse().getContentAsString();
+	        
+	        assertTrue(returnedJson.contains("JUnit"));
+	        assertTrue(returnedJson.contains("Tester"));
+	}
 }
