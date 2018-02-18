@@ -1,7 +1,7 @@
 package demo.controller;
 
-import java.util.List;
-
+import demo.Application;
+import demo.model.Person;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import demo.Application;
-import demo.model.Person;
+import java.util.List;
 
 /**
  * Uses the restTemplate made available through @SpringBootTest to run full Integration tests.

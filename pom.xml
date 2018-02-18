@@ -146,11 +146,11 @@
 				<configuration>
 					<skip>${intTests.skip}</skip>
 					<testFailureIgnore>${intTests.failureIgnore}</testFailureIgnore>
-					<sources>
-						<source>src/test-int/java</source>
-					</sources>
+					<excludes>
+						<exclude>**/*IntTest.java</exclude>
+					</excludes>
 					<includes>
-						<include>**/*IntTest.java</include>
+						<include>src/test-int/java</include>
 					</includes>
 				</configuration>
 			</plugin>
